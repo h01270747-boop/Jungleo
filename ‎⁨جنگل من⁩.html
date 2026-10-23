@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>جنگل من</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#e9f0e2;--card:#f6f9f1;--ink:#1d2b22;--mute:#5d6f62;--leaf:#3f7d3a;--leaf2:#2c5d2a;--coin:#c98a0b;--line:#cfdcc6;--sky:#d4e6d0;--bad:#a2492f;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#111c16;--card:#1b2a21;--ink:#e4efe0;--mute:#93a99a;--leaf:#6fbf64;--leaf2:#4e9a47;--coin:#e6b53c;--line:#2b3f33;--sky:#223529;--bad:#e0805f}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#111c16;--card:#1b2a21;--ink:#e4efe0;--mute:#93a99a;--leaf:#6fbf64;--leaf2:#4e9a47;--coin:#e6b53c;--line:#2b3f33;--sky:#223529;--bad:#e0805f}
+*{box-sizing:border-box;margin:0}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:Vazirmatn,Tahoma,sans-serif;line-height:1.7}
+main{max-width:480px;margin:0 auto;padding:18px 16px 100px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+h1{font-size:22px;font-weight:800}
+.coin{background:var(--card);border:1.5px solid var(--line);padding:2px 12px;border-radius:99px;font-weight:600;color:var(--coin)}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:22px;padding:16px;margin-bottom:14px}
+.hero{display:block;width:min(78vw,300px);margin:6px auto 10px}
+.big{font-size:44px;font-weight:800;text-align:center;line-height:1.2}
+.sub{text-align:center;color:var(--mute);font-size:14px}
+button{font:inherit;cursor:pointer;border:0;color:inherit}
+button:focus-visible,input:focus-visible{outline:3px solid var(--leaf);outline-offset:2px}
+.btn{display:block;width:100%;background:var(--leaf);color:#fff;border-radius:99px;padding:12px;font-size:18px;font-weight:600;margin-top:12px}
+:root[data-theme="dark"] .btn{color:#10200f}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn{color:#10200f}}
+.btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--mute);font-size:15px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.chip{background:transparent;border:1.5px solid var(--line);border-radius:99px;padding:3px 14px;font-size:14px;color:var(--mute)}
+.chip.on{background:var(--leaf);border-color:var(--leaf);color:#fff}
+.pick{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 8px}
+.pk{flex:0 0 64px;height:72px;background:var(--sky);border:2px solid transparent;border-radius:16px;padding:4px}
+.pk.on{border-color:var(--leaf)}
+.pk svg{width:100%;height:100%}
+input[type=range]{width:100%;accent-color:var(--leaf);margin:8px 0}
+label{font-size:14px;color:var(--mute)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.grid div{background:var(--sky);border-radius:14px;aspect-ratio:1;padding:2px}
+.grid svg{width:100%;height:100%}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.kpi{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.kpi .card{margin:0;text-align:center}
+.kpi b{display:block;font-size:26px;font-weight:800}
+.kpi span{font-size:13px;color:var(--mute)}
+.bars{display:flex;align-items:flex-end;gap:8px;height:120px;margin-top:8px}
+.bars div{flex:1;text-align:center;font-size:11px;color:var(--mute);display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+.bars i{display:block;background:var(--leaf);border-radius:8px 8px 3px 3px;min-height:3px;margin-bottom:3px}
+.shop{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.shop .card{margin:0;text-align:center}
+.shop svg{width:80px;height:80px}
+.shop .btn{font-size:14px;padding:6px;margin-top:6px}
+nav{position:fixed;inset:auto 0 0 0;background:var(--card);border-top:1.5px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{flex:1;max-width:120px;background:none;padding:8px 0 6px;font-size:12px;color:var(--mute)}
+nav button.on{color:var(--leaf);font-weight:800}
+nav em{display:block;font-style:normal;font-size:22px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+<header><h1>🌳 جنگل من</h1><span class="coin" id="coin"></span></header>
+<div id="v"></div>
+</main>
+<nav id="nav"></nav>
+<script>
+const K='forest-v1',fa=n=>Number(n).toLocaleString('fa-IR');
+const T={oak:{n:'بلوط',p:0,c:'#4f8a3c',d:'#376b2b',l:'#7fb85f'},bamboo:{n:'بامبو',p:30,c:'#7bb34e',d:'#4e7f2e',l:'#b7dd84',k:'bamboo'},pine:{n:'کاج',p:60,c:'#2f6b4a',d:'#1f4d34',l:'#5fa57c',k:'pine'},cactus:{n:'کاکتوس',p:90,c:'#5c9a55',d:'#3f7a3c',l:'#9fd18f',k:'cactus'},birch:{n:'توس',p:120,c:'#8fc15a',d:'#6a9a3e',l:'#c4e394',k:'birch'},maple:{n:'افرا',p:150,c:'#e0742a',d:'#b8531a',l:'#f5a553'},apple:{n:'سیب',p:190,c:'#4f9a3f',d:'#397a2e',l:'#86c867',dot:'#d9382b'},palm:{n:'نخل',p:230,c:'#4aa24a',d:'#2f7a36',l:'#8fd17f',k:'palm'},cherry:{n:'شکوفه گیلاس',p:280,c:'#f2a0bd',d:'#d9739b',l:'#ffd3e2',dot:'#fff'},cypress:{n:'سرو',p:340,c:'#2a5e3f',d:'#1b4630',l:'#4f8c66',k:'cypress'},willow:{n:'بید مجنون',p:420,c:'#8bbd5a',d:'#5d913a',l:'#bfe08c',k:'willow'},pomegranate:{n:'انار',p:520,c:'#4a9a52',d:'#33753d',l:'#7ec584',dot:'#c4262e'},ginkgo:{n:'جینکو',p:650,c:'#f0c23a',d:'#c99716',l:'#ffe58a'},baobab:{n:'بائوباب',p:800,c:'#6aa046',d:'#4a7d2e',l:'#9bd06f',k:'baobab'}};
+const TAGS=['مطالعه','کار','ورزش','کتاب','سایر'];
+let S={coins:0,trees:[],own:['oak'],sel:'oak',tag:'مطالعه',min:25,run:null};
+try{Object.assign(S,JSON.parse(localStorage.getItem(K)||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+let tab='plant',filt='today',msg=null,leftAt=0;
+
+function treeG(t,s,dead,m){
+ const X=T[t],c=X.c,d=X.d,l=X.l,k=X.k||'round';
+ const tk=col=>`<path d="M45 90Q47 72 46 52h8q-1 20 1 38z" fill="${col||'#7a5230'}"/><path d="M51 90Q53 72 52 52h2q-1 20 1 38z" fill="#0002"/>`;
+ const rd=(cy,r)=>`<g fill="${d}"><circle cx="50" cy="${cy+4}" r="${r}"/><circle cx="33" cy="${cy+17}" r="${r*.62}"/><circle cx="67" cy="${cy+17}" r="${r*.62}"/></g><g fill="${c}"><circle cx="50" cy="${cy}" r="${r}"/><circle cx="34" cy="${cy+14}" r="${r*.6}"/><circle cx="66" cy="${cy+14}" r="${r*.6}"/></g><g fill="${l}" opacity=".7"><circle cx="41" cy="${cy-8}" r="${r*.3}"/><circle cx="58" cy="${cy-2}" r="${r*.15}"/></g>`;
+ let b;
+ if(dead) b='<path d="M50 90V50M50 66L34 52M50 58L66 42" stroke="#7a6248" stroke-width="5" stroke-linecap="round" fill="none"/><circle cx="34" cy="52" r="3" fill="#8a7a66"/>';
+ else if(k=='round') b=tk()+rd(42,26)+(X.dot?'<g fill="'+X.dot+'">'+[[40,38],[58,44],[36,58],[64,56],[50,30],[48,52]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="2.8"/>`).join('')+'</g>':'');
+ else if(k=='birch') b=tk('#f1efe6')+'<g fill="#3a3a3a"><rect x="46" y="62" width="4" height="2"/><rect x="50" y="74" width="3" height="2"/><rect x="47" y="82" width="4" height="2"/></g>'+rd(38,22);
+ else if(k=='pine') b=tk('#6b4a2f')+[[10,42,29,71],[26,62,23,77],[44,82,17,83]].map(a=>`<polygon points="50,${a[0]} ${a[2]},${a[1]} ${a[3]},${a[1]}" fill="${c}"/><polygon points="50,${a[0]} ${a[2]},${a[1]} 50,${a[1]}" fill="${l}" opacity=".35"/>`).join('');
+ else if(k=='cypress') b=tk('#6b4a2f')+`<ellipse cx="50" cy="46" rx="15" ry="40" fill="${d}"/><ellipse cx="50" cy="45" rx="13" ry="38" fill="${c}"/><ellipse cx="45" cy="38" rx="4" ry="22" fill="${l}" opacity=".4"/>`;
+ else if(k=='willow') b=tk()+`<circle cx="50" cy="36" r="22" fill="${d}"/><circle cx="50" cy="33" r="21" fill="${c}"/><g stroke="${l}" stroke-width="3" stroke-linecap="round" fill="none">`+[-24,-16,-8,0,8,16,24].map(o=>`<path d="M${50+o} 40Q${50+o*1.2+3} 58 ${50+o*1.15} ${70+Math.abs(o)/3}"/>`).join('')+'</g>';
+ else if(k=='baobab') b=`<path d="M34 90C42 78 42 60 41 46L59 46C58 60 58 78 66 90Z" fill="#8a6a45"/><path d="M52 90C56 76 55 60 55 46L59 46C58 60 58 78 66 90Z" fill="#0002"/><path d="M44 48L32 34M56 48L68 34M50 46V30" stroke="#8a6a45" stroke-width="4" stroke-linecap="round"/><g fill="${d}"><ellipse cx="32" cy="32" rx="14" ry="9"/><ellipse cx="68" cy="32" rx="14" ry="9"/><ellipse cx="50" cy="26" rx="16" ry="10"/></g><g fill="${c}"><ellipse cx="32" cy="30" rx="13" ry="8"/><ellipse cx="68" cy="30" rx="13" ry="8"/><ellipse cx="50" cy="24" rx="15" ry="9"/></g>`;
+ else if(k=='bamboo') b=[[36,38],[48,18],[60,30]].map(a=>{let x=a[0],y0=a[1],r=`<rect x="${x}" y="${y0}" width="7" height="${90-y0}" rx="3" fill="${c}"/><rect x="${x+4.5}" y="${y0}" width="2.5" height="${90-y0}" rx="1" fill="#0002"/>`;for(let y=y0+12;y<88;y+=14)r+=`<rect x="${x-1}" y="${y}" width="9" height="2" rx="1" fill="${d}"/>`;return r+`<ellipse cx="${x+14}" cy="${y0+6}" rx="10" ry="3" fill="${l}" transform="rotate(-25 ${x+3} ${y0+6})"/><ellipse cx="${x-8}" cy="${y0+10}" rx="10" ry="3" fill="${l}" transform="rotate(25 ${x+3} ${y0+10})"/>`}).join('');
+ else if(k=='cactus') b=`<g fill="${c}"><rect x="42" y="26" width="16" height="64" rx="8"/><rect x="24" y="48" width="9" height="26" rx="4.5"/><rect x="24" y="66" width="22" height="8" rx="4"/><rect x="67" y="40" width="9" height="26" rx="4.5"/><rect x="54" y="58" width="22" height="8" rx="4"/></g><rect x="46" y="30" width="3" height="56" rx="1.5" fill="${l}" opacity=".5"/><circle cx="50" cy="26" r="5" fill="#ef6f9a"/><circle cx="50" cy="26" r="2" fill="#ffd54a"/>`;
+ else if(k=='palm') b='<path d="M50 90Q56 62 48 34" stroke="#8a6238" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M50 90Q56 62 48 34" stroke="#0003" stroke-width="7" stroke-dasharray="2 7" fill="none"/><g fill="'+d+'">'+[-70,-25,15,160,205].map(a=>`<ellipse cx="66" cy="36" rx="19" ry="6" transform="rotate(${a} 48 34)"/>`).join('')+'</g><g fill="'+c+'">'+[-70,-25,15,160,205].map(a=>`<ellipse cx="66" cy="34" rx="19" ry="5" transform="rotate(${a} 48 34)"/>`).join('')+'</g><circle cx="45" cy="39" r="3.5" fill="#6b4a2f"/><circle cx="52" cy="41" r="3.5" fill="#6b4a2f"/>';
+ const gs=m?.55+.45*Math.min(1,(m-10)/110):1;let ex='',bk='';
+ if(m&&!dead&&s>.7){
+  const st=(x,y)=>`<path d="M${x} ${y-4}L${x+1.2} ${y-1.2}L${x+4} ${y}L${x+1.2} ${y+1.2}L${x} ${y+4}L${x-1.2} ${y+1.2}L${x-4} ${y}L${x-1.2} ${y-1.2}Z" fill="#ffe27a"/>`;
+  if(m>=30)ex+=[[26,88,'#ff8fab'],[73,87,'#ffd54a'],[34,91,'#fff'],[66,91,'#ff8fab']].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="2" fill="${p[2]}"/>`).join('');
+  if(m>=60)ex+=st(20,34)+st(82,28);
+  if(m>=90){bk='<circle cx="50" cy="50" r="46" fill="#ffd54a" opacity=".16"/>';ex+=st(78,62)+st(16,60)}
+  if(m>=115)ex+='<path d="M68 20q4-5 8 0q4-5 8 0" stroke="#333" stroke-width="1.6" fill="none"/>';
+ }
+ const seed=s<.12&&!dead;
+ return bk+'<ellipse cx="50" cy="90" rx="32" ry="7" fill="#6b4a2f" opacity=".5"/><ellipse cx="50" cy="88.5" rx="24" ry="4" fill="#7fae5c" opacity=".85"/>'+(seed?'<ellipse cx="50" cy="86" rx="5" ry="3.5" fill="#8a5a2b"/>':`<g transform="translate(50 90) scale(${dead?1:(.28+.72*s)*gs}) translate(-50 -90)">${b}</g>`)+ex;
+}
+function treeOld(t,s,dead){
+ const tr='<rect x="46" y="52" width="8" height="38" rx="3" fill="#7a5230"/>';
+ let b;
+ if(dead) b='<path d="M50 90V50M50 66L34 52M50 58L66 42" stroke="#7a6248" stroke-width="5" stroke-linecap="round" fill="none"/><circle cx="34" cy="52" r="3" fill="#8a7a66"/>';
+ else if(t=='pine') b='<rect x="47" y="72" width="6" height="18" fill="#7a5230"/><g fill="#2f6b4a"><polygon points="50,12 28,42 72,42"/><polygon points="50,28 22,62 78,62"/><polygon points="50,45 16,82 84,82"/></g>';
+ else if(t=='cactus') b='<g fill="#5c9a55"><rect x="42" y="26" width="16" height="64" rx="8"/><rect x="24" y="48" width="9" height="26" rx="4.5"/><rect x="24" y="66" width="22" height="8" rx="4"/><rect x="67" y="40" width="9" height="26" rx="4.5"/><rect x="54" y="58" width="22" height="8" rx="4"/></g><circle cx="50" cy="26" r="0" fill="#e88fb0"/>';
+ else if(t=='palm') b='<path d="M50 90Q56 62 48 34" stroke="#8a6238" stroke-width="7" stroke-linecap="round" fill="none"/><g fill="#6aa84f">'+[-70,-25,15,160,205].map(a=>`<ellipse cx="66" cy="34" rx="19" ry="6" transform="rotate(${a} 48 34)"/>`).join('')+'</g>';
+ else {const c=T[t].c;b=tr+`<g fill="${c}"><circle cx="50" cy="42" r="26"/><circle cx="34" cy="56" r="16"/><circle cx="66" cy="56" r="16"/></g>`+(t=='cherry'?'<g fill="#fff6"><circle cx="42" cy="36" r="3"/><circle cx="60" cy="46" r="3"/><circle cx="38" cy="58" r="3"/></g>':'<g fill="#fff3"><circle cx="42" cy="34" r="6"/></g>')}
+ const seed=s<.12&&!dead;
+ return '<ellipse cx="50" cy="90" rx="30" ry="6" fill="#6b4a2f" opacity=".45"/>'+(seed?'<ellipse cx="50" cy="86" rx="5" ry="3.5" fill="#8a5a2b"/>':`<g transform="translate(50 90) scale(${dead?1:.28+.72*s}) translate(-50 -90)">${b}</g>`);
+}
+const svg=(t,s=1,d=0,m)=>`<svg viewBox="0 0 100 100" aria-hidden="true">${treeG(t,s,d,m)}</svg>`;
+function hero(t,p,d,m){const C=351.86;return `<svg class="hero" viewBox="0 0 120 120" role="img" aria-label="درخت"><circle cx="60" cy="60" r="56" fill="var(--sky)" stroke="var(--line)" stroke-width="4"/><circle id="ring" cx="60" cy="60" r="56" fill="none" stroke="var(--leaf)" stroke-width="4" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-p)}" transform="rotate(-90 60 60)"/><g id="tg" transform="translate(16 12) scale(.88)">${treeG(t,p,d,m)}</g></svg>`}
+const mmss=ms=>{const s=Math.max(0,Math.ceil(ms/1000));return fa(Math.floor(s/60)).padStart(2,'۰')+':'+fa(s%60).padStart(2,'۰')};
+const fmt=m=>m>=60?fa(Math.floor(m/60))+' ساعت'+(m%60?' و '+fa(m%60)+' دقیقه':''):fa(m)+' دقیقه';
+
+function beep(){try{const a=new AudioContext(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=660;g.gain.setValueAtTime(.2,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.9);o.start();o.stop(a.currentTime+.9)}catch(e){}}
+
+function start(){wake();setTimeout(tick,S.min*60000+300);try{if(Notification.permission=='default')Notification.requestPermission()}catch(e){}const m=S.min*60000;S.run={t:S.sel,g:S.tag,min:S.min,start:Date.now(),end:Date.now()+m};msg=null;save();render()}
+function finish(){const r=S.run;S.trees.push({t:r.t,m:r.min,ok:1,d:Date.now(),g:r.g});S.coins+=r.min;msg={ok:1,t:r.t,m:r.min};S.run=null;save();beep();try{navigator.vibrate&&navigator.vibrate([200,100,200]);if(Notification.permission=='granted')new Notification('🌳 درخت کاشته شد',{body:fa(r.min)+' دقیقه تمرکز · '+fa(r.min)+'+ سکه'})}catch(e){}render()}
+function fail(){const r=S.run;const el=Math.max(1,Math.floor((Date.now()-r.start)/60000));S.trees.push({t:r.t,m:el,ok:0,d:Date.now(),g:r.g});msg={ok:0,t:r.t,m:el};S.run=null;save();render()}
+function giveUp(){if(confirm('اگر الان رها کنی، درخت پژمرده می‌شود. مطمئنی؟'))fail()}
+function tick(){const r=S.run;if(!r)return;const p=(Date.now()-r.start)/(r.end-r.start);if(p>=1)return finish();
+ if(tab!='plant')return;const tm=document.getElementById('tm');if(!tm)return;tm.textContent=mmss(r.end-Date.now());
+ document.getElementById('ring').setAttribute('stroke-dashoffset',351.86*(1-p));document.getElementById('tg').innerHTML=treeG(r.t,p,0,r.min)}
+setInterval(tick,500);
+let wl;async function wake(){try{wl=await navigator.wakeLock.request('screen')}catch(e){}}
+document.addEventListener('visibilitychange',()=>{if(!S.run)return;if(document.hidden)leftAt=Date.now();else{if(S.strict&&leftAt&&Date.now()-leftAt>15000&&Date.now()<S.run.end){leftAt=0;fail();return}leftAt=0;tick();wake()}});
+
+const set=(k,v)=>{S[k]=v;save();render()};
+const go=t=>{tab=t;render()};
+function buy(t){if(S.own.includes(t)){set('sel',t);return}if(S.coins>=T[t].p){S.coins-=T[t].p;S.own.push(t);S.sel=t;save();render()}}
+
+function vPlant(){
+ if(msg){const m=msg;return `<div class="card">${hero(m.t,m.ok?1:0,!m.ok,m.m)}<div class="big">${m.ok?'درخت کاشته شد':'درخت پژمرده شد'}</div><p class="sub">${m.ok?`${fmt(m.m)} تمرکز · ${fa(m.m)}+ سکه`:'تمرکزت قبل از پایان قطع شد. دوباره امتحان کن.'}</p><button class="btn" onclick="msg=null;render()">${m.ok?'کاشت درخت بعدی':'شروع دوباره'}</button></div>`}
+ if(S.run){const r=S.run,p=Math.min(1,(Date.now()-r.start)/(r.end-r.start));return `<div class="card">${hero(r.t,p,0,r.min)}<div class="big" id="tm">${mmss(r.end-Date.now())}</div><p class="sub">در حال رشد: ${T[r.t].n} · ${r.g}<br>${S.strict?'از این صفحه خارج نشو.':'می‌توانی گوشی را قفل کنی؛ تایمر ادامه پیدا می‌کند.'}</p><button class="btn ghost" onclick="giveUp()">رها کردن</button></div>`}
+ return `<div class="card">${hero(S.sel,1,0,S.min)}<div class="big">${fmt(S.min)}</div><input type="range" min="10" max="120" step="5" value="${S.min}" aria-label="مدت تمرکز" oninput="S.min=+this.value;document.querySelector('.big').textContent=fmt(S.min);document.getElementById('tg').innerHTML=treeG(S.sel,1,0,S.min)" onchange="set('min',S.min)">
+ <label>برچسب</label><div class="chips">${TAGS.map(g=>`<button class="chip${g==S.tag?' on':''}" onclick="set('tag','${g}')">${g}</button>`).join('')}</div>
+ <label>نوع درخت</label><div class="pick">${S.own.map(t=>`<button class="pk${t==S.sel?' on':''}" aria-label="${T[t].n}" onclick="set('sel','${t}')">${svg(t)}</button>`).join('')}</div>
+ <label style="display:flex;gap:8px;align-items:center;margin-top:6px"><input type="checkbox" ${S.strict?'checked':''} onchange="set('strict',this.checked)">حالت سخت‌گیرانه: خروج از صفحه درخت را پژمرده می‌کند (قفل گوشی هم حساب می‌شود)</label><button class="btn" onclick="start()">🌱 بکار</button></div>`}
+
+const inRange=(d,f)=>{const n=Date.now(),x=new Date(d);return f=='all'||(f=='today'?x.toDateString()==new Date().toDateString():n-d<(f=='week'?7:30)*864e5)};
+function vForest(){
+ const L=S.trees.filter(x=>inRange(x.d,filt)).reverse(),ok=L.filter(x=>x.ok);
+ return `<div class="chips">${[['today','امروز'],['week','هفته'],['month','ماه'],['all','همه']].map(a=>`<button class="chip${filt==a[0]?' on':''}" onclick="filt='${a[0]}';render()">${a[1]}</button>`).join('')}</div>
+ <div class="card"><p class="sub">${fa(ok.length)} درخت زنده · ${fa(L.length-ok.length)} پژمرده · ${fmt(ok.reduce((a,x)=>a+x.m,0))}</p>
+ ${L.length?`<div class="grid" style="margin-top:10px">${L.map(x=>`<div title="${T[x.t].n} · ${x.g} · ${fa(x.m)} دقیقه">${svg(x.t,1,!x.ok,x.m)}</div>`).join('')}</div>`:'<p class="sub" style="padding:30px 0">هنوز درختی نکاشته‌ای. اولین تمرکزت را شروع کن.</p>'}</div>`}
+
+function vStats(){
+ const ok=S.trees.filter(x=>x.ok),td=ok.filter(x=>inRange(x.d,'today')),days=[];
+ for(let i=6;i>=0;i--){const d=new Date(Date.now()-i*864e5);days.push({l:d.toLocaleDateString('fa-IR',{weekday:'narrow'}),m:ok.filter(x=>new Date(x.d).toDateString()==d.toDateString()).reduce((a,x)=>a+x.m,0)})}
+ const mx=Math.max(1,...days.map(d=>d.m)),tg={};ok.forEach(x=>tg[x.g]=(tg[x.g]||0)+x.m);
+ const tot=ok.reduce((a,x)=>a+x.m,0);
+ return `<div class="kpi"><div class="card"><b>${fa(td.reduce((a,x)=>a+x.m,0))}</b><span>دقیقه امروز</span></div><div class="card"><b>${fa(ok.length)}</b><span>درخت زنده</span></div><div class="card"><b>${fa(Math.round(tot/60*10)/10)}</b><span>ساعت تمرکز</span></div><div class="card"><b>${fa(S.trees.length-ok.length)}</b><span>درخت پژمرده</span></div></div>
+ <div class="card"><b>۷ روز اخیر</b><div class="bars">${days.map(d=>`<div><i style="height:${d.m/mx*85}%" title="${fa(d.m)} دقیقه"></i>${d.l}</div>`).join('')}</div></div>
+ <div class="card"><b>تمرکز بر اساس برچسب</b>${Object.keys(tg).length?Object.entries(tg).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div style="margin-top:8px"><div class="row"><span>${k}</span><span class="sub">${fmt(v)}</span></div><div style="height:8px;border-radius:9px;background:var(--sky)"><div style="height:8px;border-radius:9px;background:var(--leaf);width:${v/tot*100}%"></div></div></div>`).join(''):'<p class="sub">داده‌ای وجود ندارد.</p>'}</div>`}
+
+function vShop(){return `<p class="sub" style="margin-bottom:10px">با هر دقیقه تمرکز یک سکه می‌گیری.</p><div class="shop">${Object.keys(T).map(t=>{const o=S.own.includes(t);return `<div class="card">${svg(t)}<div>${T[t].n}</div><button class="btn${o&&S.sel!=t?' ghost':''}" ${!o&&S.coins<T[t].p?'disabled style="opacity:.5"':''} onclick="buy('${t}')">${o?(S.sel==t?'انتخاب شده':'انتخاب'):'🪙 '+fa(T[t].p)}</button></div>`}).join('')}</div>`}
+
+function render(){
+ document.getElementById('coin').textContent='🪙 '+fa(S.coins);
+ document.getElementById('v').innerHTML={plant:vPlant,forest:vForest,stats:vStats,shop:vShop}[tab]();
+ document.getElementById('nav').innerHTML=[['plant','🌱','کاشت'],['forest','🌲','جنگل'],['stats','📊','آمار'],['shop','🛒','فروشگاه']].map(a=>`<button class="${tab==a[0]?'on':''}" onclick="go('${a[0]}')"><em>${a[1]}</em>${a[2]}</button>`).join('');
+}
+if(S.run&&Date.now()>=S.run.end)finish();else{render();if(S.run)setTimeout(tick,S.run.end-Date.now()+300)}
+</script>
+</body>
+</html>
